@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
 project(cmake_test VERSION 0.1.0 LANGUAGES CXX )
+set (CMAKE_CXX_STANDARD 11)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 include(util)
-# SET (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 add_executable(cmake_test main.cpp)
-set(cmake_test_libs GLM SDL2 SDL2_IMAGE GLEW TBB glog OpenImageIO Boost OpenMesh AssImp)
+set(cmake_test_libs GLM SDL2 SDL2_IMAGE GLEW TBB glog OpenImageIO Boost )
+set(Boost_COMPS filesystem)
 UseLib(cmake_test "${cmake_test_libs}")
-target_link_libraries(cmake_test)

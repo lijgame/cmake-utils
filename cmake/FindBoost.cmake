@@ -21,9 +21,9 @@
 # case results are reported in variables::
 #
 #   Boost_FOUND            - True if headers and requested libraries were found
-#   Boost_INCLUDE_DIRS     - Boost include directories
-#   Boost_LIBRARY_DIRS     - Link directories for Boost libraries
-#   Boost_LIBRARIES        - Boost component libraries to be linked
+#   BOOST_INCLUDE_DIRS     - Boost include directories
+#   BOOST_LIBRARY_DIRS     - Link directories for Boost libraries
+#   BOOST_LIBRARIES        - Boost component libraries to be linked
 #   Boost_<C>_FOUND        - True if component <C> was found (<C> is upper-case)
 #   Boost_<C>_LIBRARY      - Libraries to link for component <C> (may include
 #                            target_link_libraries debug/optimized keywords)
@@ -175,7 +175,7 @@
 #
 #   find_package(Boost 1.36.0)
 #   if(Boost_FOUND)
-#     include_directories(${Boost_INCLUDE_DIRS})
+#     include_directories(${BOOST_INCLUDE_DIRS})
 #     add_executable(foo foo.cc)
 #   endif()
 #
@@ -196,9 +196,9 @@
 #   set(Boost_USE_STATIC_RUNTIME    OFF)
 #   find_package(Boost 1.36.0 COMPONENTS date_time filesystem system ...)
 #   if(Boost_FOUND)
-#     include_directories(${Boost_INCLUDE_DIRS})
+#     include_directories(${BOOST_INCLUDE_DIRS})
 #     add_executable(foo foo.cc)
-#     target_link_libraries(foo ${Boost_LIBRARIES})
+#     target_link_libraries(foo ${BOOST_LIBRARIES})
 #   endif()
 #
 # Boost CMake
@@ -1732,16 +1732,16 @@ endif()
 #  End finding boost libraries
 # ------------------------------------------------------------------------
 
-set(Boost_INCLUDE_DIRS ${Boost_INCLUDE_DIR})
-set(Boost_LIBRARY_DIRS)
+set(BOOST_INCLUDE_DIRS ${Boost_INCLUDE_DIR})
+set(BOOST_LIBRARY_DIRS)
 if(Boost_LIBRARY_DIR_RELEASE)
-  list(APPEND Boost_LIBRARY_DIRS ${Boost_LIBRARY_DIR_RELEASE})
+  list(APPEND BOOST_LIBRARY_DIRS ${Boost_LIBRARY_DIR_RELEASE})
 endif()
 if(Boost_LIBRARY_DIR_DEBUG)
-  list(APPEND Boost_LIBRARY_DIRS ${Boost_LIBRARY_DIR_DEBUG})
+  list(APPEND BOOST_LIBRARY_DIRS ${Boost_LIBRARY_DIR_DEBUG})
 endif()
-if(Boost_LIBRARY_DIRS)
-  list(REMOVE_DUPLICATES Boost_LIBRARY_DIRS)
+if(BOOST_LIBRARY_DIRS)
+  list(REMOVE_DUPLICATES BOOST_LIBRARY_DIRS)
 endif()
 
 # The above setting of Boost_FOUND was based only on the header files.
@@ -1795,13 +1795,13 @@ if(Boost_FOUND)
     endif ()
   endif ()
 
-  if( NOT Boost_LIBRARY_DIRS AND NOT _boost_CHECKED_COMPONENT )
+  if( NOT BOOST_LIBRARY_DIRS AND NOT _boost_CHECKED_COMPONENT )
     # Compatibility Code for backwards compatibility with CMake
     # 2.4's FindBoost module.
 
     # Look for the boost library path.
     # Note that the user may not have installed any libraries
-    # so it is quite possible the Boost_LIBRARY_DIRS may not exist.
+    # so it is quite possible the BOOST_LIBRARY_DIRS may not exist.
     set(_boost_LIB_DIR ${Boost_INCLUDE_DIR})
 
     if("${_boost_LIB_DIR}" MATCHES "boost-[0-9]+")
@@ -1822,7 +1822,7 @@ if(Boost_FOUND)
     endif()
 
     if(_boost_LIB_DIR AND EXISTS "${_boost_LIB_DIR}")
-      set(Boost_LIBRARY_DIRS ${_boost_LIB_DIR})
+      set(BOOST_LIBRARY_DIRS ${_boost_LIB_DIR})
     endif()
 
   endif()
@@ -1842,9 +1842,9 @@ if(Boost_FOUND)
   # For header-only libraries
   if(NOT TARGET Boost::boost)
     add_library(Boost::boost INTERFACE IMPORTED)
-    if(Boost_INCLUDE_DIRS)
+    if(BOOST_INCLUDE_DIRS)
       set_target_properties(Boost::boost PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIRS}")
+        INTERFACE_INCLUDE_DIRECTORIES "${BOOST_INCLUDE_DIRS}")
     endif()
   endif()
 
@@ -1859,9 +1859,9 @@ if(Boost_FOUND)
           # libraries as a result.
           add_library(Boost::${COMPONENT} UNKNOWN IMPORTED)
         endif()
-        if(Boost_INCLUDE_DIRS)
+        if(BOOST_INCLUDE_DIRS)
           set_target_properties(Boost::${COMPONENT} PROPERTIES
-            INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIRS}")
+            INTERFACE_INCLUDE_DIRECTORIES "${BOOST_INCLUDE_DIRS}")
         endif()
         if(EXISTS "${Boost_${UPPERCOMPONENT}_LIBRARY}")
           set_target_properties(Boost::${COMPONENT} PROPERTIES
@@ -1906,7 +1906,7 @@ endif()
 #  Notification to end user about what was found
 # ------------------------------------------------------------------------
 
-set(Boost_LIBRARIES "")
+set(BOOST_LIBRARIES "")
 if(Boost_FOUND)
   if(NOT Boost_FIND_QUIETLY)
     message(STATUS "Boost version: ${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR_VERSION}")
@@ -1920,7 +1920,7 @@ if(Boost_FOUND)
       if(NOT Boost_FIND_QUIETLY)
         message (STATUS "  ${COMPONENT}")
       endif()
-      list(APPEND Boost_LIBRARIES ${Boost_${UPPERCOMPONENT}_LIBRARY})
+      list(APPEND BOOST_LIBRARIES ${Boost_${UPPERCOMPONENT}_LIBRARY})
     endif()
   endforeach()
 else()
