@@ -12,6 +12,10 @@ else()
     set (VCPKG_DIR "/usr")
 endif()
 
+if(POLICY CMP0072)
+  cmake_policy(SET CMP0072 NEW)
+endif()
+
 set (BOOST_ROOT ${VCPKG_DIR})
 set (ASSIMP_DIR ${VCPKG_DIR})
 
