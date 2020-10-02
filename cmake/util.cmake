@@ -39,3 +39,8 @@ macro(findSDL2 target)
     target_link_libraries(${target} PRIVATE SDL2::SDL2_image )
 
 endmacro(findSDL2)
+
+macro(findEigen3 target)
+    find_package(Eigen3 REQUIRED)
+    target_link_libraries(${target} PRIVATE Eigen3::Eigen)
+endmacro(findEigen3 target)
