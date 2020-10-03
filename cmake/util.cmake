@@ -9,7 +9,7 @@ endif()
 
 macro(findGLM target)
     find_package(glm REQUIRED)
-    target_include_directories(${target} PRIVATE glm::glm)
+    target_include_directories(${target} SYSTEM  PRIVATE glm::glm)
 endmacro(findGLM target)
 
 macro(findGLEW target)
@@ -31,7 +31,7 @@ macro(findSDL2 target)
     if(WIN32)
         target_link_libraries(${target} PRIVATE SDL2::SDL2 SDL2::SDL2main)
     else()
-        target_include_directories(${target} PRIVATE ${SDL2_INCLUDE_DIRS})
+        target_include_directories(${target} SYSTEM PRIVATE ${SDL2_INCLUDE_DIRS})
         target_link_libraries(${target} PRIVATE ${SDL2_LIBRARIES})
     endif()
 
