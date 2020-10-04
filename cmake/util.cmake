@@ -44,3 +44,8 @@ macro(findEigen3 target)
     find_package(Eigen3 REQUIRED)
     target_link_libraries(${target} PRIVATE Eigen3::Eigen)
 endmacro(findEigen3 target)
+
+macro(findOpenMP target)
+    find_package(OpenMP  REQUIRED)
+    target_link_libraries(${target} PRIVATE OpenMP::OpenMP_CXX)
+endmacro(findOpenMP target)
